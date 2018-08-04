@@ -17,3 +17,13 @@ type Pagination struct {
 func (p Pagination) String() string {
 	return fmt.Sprintf("Pagination{%d / %d (%d)}", p.Page, p.PageTotal, p.ResultsTotal)
 }
+
+type TranslateableName struct {
+	Name   string `json:"Name"`
+	NameCN string `json:"Name_cn"`
+	NameDE string `json:"Name_de"`
+	NameEN string `json:"Name_en"`
+	NameFR string `json:"Name_fr"`
+	NameJA string `json:"Name_ja"`
+	NameKR string `json:"Name_kr"`
+}

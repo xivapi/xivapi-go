@@ -29,10 +29,16 @@ var searchCmd = &cobra.Command{
 	Run:   RunSearch,
 }
 
+var patchCmd = &cobra.Command{
+	Use:   "patch",
+	Short: "Get a list of patches",
+	Run:   RunPatch,
+}
+
 func main() {
 	cobra.OnInitialize(initConfig)
 	rootCmd.PersistentFlags().StringP("key", "k", "", "The XIVAPI key")
-	rootCmd.AddCommand(searchCmd)
+	rootCmd.AddCommand(searchCmd, patchCmd)
 
 	searchCmd.PersistentFlags().IntVarP(&details, "details", "d", -1, "Show details for the specific entry")
 
@@ -71,6 +77,16 @@ func RunSearch(cmd *cobra.Command, args []string) {
 			}
 		}
 	} else {
-		fmt.Print(res)
+		fmt.Println(res)
 	}
+}
+
+func RunPatch(cmd *cobra.Command, args []string) {
+	c := xivapi.New(cmd.Flag("key").Value.String())
+	res, err := c.PatchList()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("%+v\n", res)
 }
