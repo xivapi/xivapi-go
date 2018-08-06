@@ -39,17 +39,20 @@ func (sr SearchResult) String() string {
 }
 
 // Duration converts the Milliseconds into a time.Duraction
-func (r *SearchResult) Duration() time.Duration {
-	return time.Duration(r.Milliseconds) * time.Millisecond
+func (sr *SearchResult) Duration() time.Duration {
+	return time.Duration(sr.Milliseconds) * time.Millisecond
 }
 
+// SearchResultEntry is the result of a search result.
+// It holds the 2 common fields to all results and allows converting into the correct type
 type SearchResultEntry struct {
 	Type SearchIndex `json:"_"`
 	Name string      `json:"name"`
 
-	rawMap map[string]interface{} `json:"-"`
+	rawMap map[string]interface{}
 }
 
+// UnmarshalJSON is called by encoding/json for a custom way to unmarshal the json object
 func (e *SearchResultEntry) UnmarshalJSON(bs []byte) error {
 	// encoding/json converts snake_case to PascalCase
 	if err := json.Unmarshal(bs, &e.rawMap); err != nil {
@@ -79,6 +82,7 @@ func (e *SearchResultEntry) UnmarshalJSON(bs []byte) error {
 	return nil
 }
 
+// GetCompanion returns the SearchResultCompanion from this entry object
 func (e *SearchResultEntry) GetCompanion() (*SearchResultCompanion, error) {
 	entity := new(SearchResultCompanion)
 	if err := mapstructure.Decode(e.rawMap, entity); err != nil {

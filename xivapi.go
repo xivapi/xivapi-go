@@ -10,8 +10,10 @@ import (
 	"time"
 )
 
+// BaseURL is the root URL of every HTTP request
 const BaseURL string = "https://xivapi.com"
 
+// XIVAPI is the client to the xivapi.com website
 type XIVAPI struct {
 	WebClient *http.Client
 
@@ -21,6 +23,7 @@ type XIVAPI struct {
 	key string
 }
 
+// New creates a new XIVAPI client
 func New(key string) *XIVAPI {
 	c := new(XIVAPI)
 	c.key = key
@@ -32,6 +35,7 @@ func New(key string) *XIVAPI {
 	return c
 }
 
+// Request issues an HTTP request to the xivapi.com website and returns the raw http body as a reader
 func (c *XIVAPI) Request(method Methods, uri *url.URL, body io.ReadCloser) (io.ReadCloser, error) {
 	query := uri.Query()
 	query.Set("key", c.key)
@@ -73,6 +77,7 @@ func (c *XIVAPI) Request(method Methods, uri *url.URL, body io.ReadCloser) (io.R
 	return res.Body, nil
 }
 
+// RequestJSON calls Request to get the io.ReadCloser and then converts the body to the specified JSON object
 func (c *XIVAPI) RequestJSON(method Methods, uri *url.URL, body io.ReadCloser, jsonStruct interface{}) error {
 	responseBody, err := c.Request(method, uri, body)
 	if err != nil {

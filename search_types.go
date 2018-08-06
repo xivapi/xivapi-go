@@ -15,7 +15,7 @@ const (
 	algoFuzzy             = "fuzzy"
 )
 
-// SearchOrder defines the sort order for the result list
+// SortOrder defines the sort order for the result list
 type SortOrder string
 
 const (

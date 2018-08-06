@@ -4,6 +4,8 @@ import (
 	"fmt"
 )
 
+// Pagination holds the generic pagination info
+// Only used on search
 type Pagination struct {
 	Page           int `json:"page"`
 	PageNext       int `json:"page_next"`
@@ -18,6 +20,8 @@ func (p Pagination) String() string {
 	return fmt.Sprintf("Pagination{%d / %d (%d)}", p.Page, p.PageTotal, p.ResultsTotal)
 }
 
+// TranslateableName holds all different names for an object
+// Only used on search so far, but used in different structs
 type TranslateableName struct {
 	Name   string `json:"Name"`
 	NameCN string `json:"Name_cn"`
