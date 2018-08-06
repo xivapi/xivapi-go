@@ -9,4 +9,7 @@ const (
 
 	// FileRecord gets the main record information
 	FileRecord = "record"
+
+	// FileMembers gets the members for the free company
+	FileMembers = "members"
 )
