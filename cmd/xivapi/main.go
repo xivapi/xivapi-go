@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/Zyian/xivapi-go"
+	"gitlab.com/paars/xiv/xivapi-go"
 
 	"github.com/spf13/cobra"
 )
