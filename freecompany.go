@@ -60,7 +60,7 @@ func (c *XIVAPI) FreeCompany(id uint64, files ...FileType) (interface{}, error) 
 }
 
 // FreeCompanySearch searches for a FreeCompany on XIVAPI provided a free company name
-func (c *XIVAPI) FreeCompanySearch(name, server, page string) (interface{}, error) {
+func (c *XIVAPI) FreeCompanySearch(name, server, page string) (*SearchFreeCompanyResult, error) {
 	if name == "" {
 		return nil, ErrMissingKey
 	}
