@@ -53,8 +53,8 @@ type FreeCompany struct {
 	ParseDateTimestamp time.Time
 	Rank               int
 	Ranking            FreeCompanyRanking
-	Recruitment        string
-	Reputation         FreeCompanyReputation
+	Recruitment        string                  `json:"Recruitment"`
+	Reputation         []FreeCompanyReputation `json:"Reputation"`
 	Seeking            []FreeCompanySeeking
 	Server             string
 	Slogon             string
@@ -74,8 +74,8 @@ type FreeCompanyReputation struct {
 }
 
 type FreeCompanyRanking struct {
-	Weekly  string
-	Monthly string
+	Weekly  string `json:"Weekly"`
+	Monthly string `json:"Monthly"`
 }
 
 type FreeCompanyFocus struct {
