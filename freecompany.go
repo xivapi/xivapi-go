@@ -3,24 +3,8 @@ package xivapi
 import (
 	"fmt"
 	"net/url"
-)
 
-// FreeCompanyState : Shows current status of FreeCompany on XIVAPI
-type FreeCompanyState int
-
-const (
-	// StateNone : Content is not on XIVAPI and will not be added via this request
-	StateNone FreeCompanyState = iota
-	// StateAdding : Content does not exist on the API and needs adding.
-	StateAdding
-	// StateCached : Content exists in the system and you're being provided a cached response.
-	StateCached
-	// StateNotFound : Content does not exist on The Lodestone.
-	StateNotFound
-	// StateBlacklist : Content has been Blacklisted. No data can be obtained via the API for any application
-	StateBlacklist
-	// StatePrivate : Content is private on lodestone, ask the owner to make the content public and then try again!
-	StatePrivate
+	"github.com/google/go-querystring/query"
 )
 
 const freeCompanyEndpoint = "/FreeCompany/"
@@ -37,8 +21,14 @@ type SearchFreeCompanyResultItem struct {
 	Server string   `json:"Server"`
 }
 
+//PlayerContentQueryOptions provide search parameters for all /*/Search endpoints (PvPTeam, Character, FreeCompany, LinkShell)
+type PlayerContentQueryOptions struct {
+	Name   string `url:"name,omitempty"`
+	Server string `url:"server,omitempty"`
+	Page   int    `url:"page,omitempty"`
+}
+
 // FreeCompany requests information about the provided free company ID
-// This call isn't implemented by XIVAPI yet, so this is pretty much a no-op call.
 func (c *XIVAPI) FreeCompany(id uint64, files ...FileType) (interface{}, error) {
 	uri, _ := url.Parse(fmt.Sprintf("%v%v%v", BaseURL, freeCompanyEndpoint, id))
 
@@ -60,22 +50,15 @@ func (c *XIVAPI) FreeCompany(id uint64, files ...FileType) (interface{}, error) 
 }
 
 // FreeCompanySearch searches for a FreeCompany on XIVAPI provided a free company name
-func (c *XIVAPI) FreeCompanySearch(name, server, page string) (*SearchFreeCompanyResult, error) {
+func (c *XIVAPI) FreeCompanySearch(name, server string, page int) (*SearchFreeCompanyResult, error) {
 	if name == "" {
 		return nil, ErrMissingKey
 	}
 	uri, _ := url.Parse(fmt.Sprintf("%v%v%v", BaseURL, freeCompanyEndpoint, "Search"))
 
-	values := uri.Query()
-	values.Add("name", name)
-
-	if server != "" {
-		values.Add("server", server)
-	}
-	if page != "" {
-		values.Add("page", page)
-	}
-	uri.RawQuery = values.Encode()
+	opt := &PlayerContentQueryOptions{name, server, page}
+	v, _ := query.Values(opt)
+	uri.RawQuery = v.Encode()
 
 	r := new(SearchFreeCompanyResult)
 	if err := c.RequestJSON(MethodGet, uri, nil, r); err != nil {
