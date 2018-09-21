@@ -37,7 +37,7 @@ func (c *XIVAPI) FreeCompany(id string, isMembersIncluded bool, columns ...strin
 	if err := c.RequestJSON(MethodGet, uri, nil, r); err != nil {
 		return nil, err
 	}
-	return nil, nil
+	return r, nil
 }
 
 func buildFreeCompanyQuery(m bool, c []string) *FreeCompanyQuery {
