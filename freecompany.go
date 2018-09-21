@@ -27,7 +27,7 @@ func (c *XIVAPI) FreeCompanySearch(name, server string, page int) (*SearchFreeCo
 }
 
 // FreeCompany requests information about the provided free company ID
-func (c *XIVAPI) FreeCompany(id int64, isMembersIncluded bool, columns ...string) (*FreeCompanyResult, error) {
+func (c *XIVAPI) FreeCompany(id string, isMembersIncluded bool, columns ...string) (*FreeCompanyResult, error) {
 	uri, _ := url.Parse(fmt.Sprintf("%v%v%v", BaseURL, freeCompanyEndpoint, id))
 	q := buildFreeCompanyQuery(isMembersIncluded, columns)
 	v, _ := query.Values(q)
