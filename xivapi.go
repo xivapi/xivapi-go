@@ -13,6 +13,10 @@ import (
 // BaseURL is the root URL of every HTTP request
 const BaseURL string = "https://xivapi.com"
 
+const (
+	defaultTimeout = 30 * time.Second
+)
+
 // XIVAPI is the client to the xivapi.com website
 type XIVAPI struct {
 	WebClient *http.Client
@@ -29,7 +33,7 @@ func New(key string) *XIVAPI {
 	c.key = key
 
 	c.WebClient = &http.Client{
-		Timeout: 30 * time.Second,
+		Timeout: defaultTimeout,
 	}
 
 	return c
@@ -64,7 +68,7 @@ func (c *XIVAPI) Request(method Methods, uri *url.URL, body io.ReadCloser) (io.R
 		return nil, err
 	}
 
-	if res.StatusCode < 200 || res.StatusCode > 299 {
+	if res.StatusCode != http.StatusOK {
 		return nil, NewStatusCodeError(res.StatusCode)
 	}
 
