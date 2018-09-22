@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"gitlab.com/paars/xiv/xivapi"
+	"gitlab.com/paars/xiv/xivapi-go"
 
 	"github.com/spf13/cobra"
 )
@@ -35,10 +35,16 @@ var patchCmd = &cobra.Command{
 	Run:   RunPatch,
 }
 
+var fcCmd = &cobra.Command{
+	Use:   "fcsearch",
+	Short: "Search for a Free Company",
+	Run:   RunFreeCompanySearch,
+}
+
 func main() {
 	cobra.OnInitialize(initConfig)
 	rootCmd.PersistentFlags().StringP("key", "k", "", "The XIVAPI key")
-	rootCmd.AddCommand(searchCmd, patchCmd)
+	rootCmd.AddCommand(searchCmd, patchCmd, fcCmd)
 
 	searchCmd.PersistentFlags().IntVarP(&details, "details", "d", -1, "Show details for the specific entry")
 
@@ -52,6 +58,23 @@ func initConfig() {
 }
 
 func Run(cmd *cobra.Command, args []string) {
+
+}
+
+func RunFreeCompanySearch(cmd *cobra.Command, args []string) {
+	c := xivapi.New(cmd.Flag("key").Value.String())
+	res, err := c.FreeCompanySearch(args[0], "", "")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if details > 0 {
+		if details > res.Pagination.Results {
+			log.Fatal("Failed to fetch details for requested index")
+		}
+	} else {
+		fmt.Println(res)
+	}
 
 }
 
