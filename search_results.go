@@ -188,3 +188,26 @@ func (e *SearchResultEntry) GetEmote() (*SearchResultEmote, error) {
 	}
 	return v, nil
 }
+
+// SearchResultFate holds all fields for a Fate search result
+type SearchResultFate struct {
+	*SearchResultCommon
+	URL              string `json:"Url"`
+	GamePatchID      int    `json:"GamePatch.ID"`
+	Description      string
+	ClassJobLevel    int
+	ClassJobLevelMax int
+}
+
+// GetFate returns the Fate details for a result
+func (e *SearchResultEntry) GetFate() (*SearchResultFate, error) {
+	if e.Type != IndexFate {
+		return nil, ErrUnexpectedType
+	}
+
+	v := new(SearchResultFate)
+	if err := json.Unmarshal(e.raw, v); err != nil {
+		return nil, err
+	}
+	return v, nil
+}
