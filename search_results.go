@@ -598,3 +598,24 @@ func (e *SearchResultEntry) GetTitle() (*SearchResultTitle, error) {
 	}
 	return v, nil
 }
+
+// SearchResultWeather holds all fields for a Weather search result
+type SearchResultWeather struct {
+	*SearchResultCommon
+	URL         string `json:"Url"`
+	GamePatchID int    `json:"GamePatch.ID"`
+	Description string `json:"Description"`
+}
+
+// GetWeather returns the Weather details for a result
+func (e *SearchResultEntry) GetWeather() (*SearchResultWeather, error) {
+	if e.Type != IndexWeather {
+		return nil, ErrUnexpectedType
+	}
+
+	v := new(SearchResultWeather)
+	if err := json.Unmarshal(e.raw, v); err != nil {
+		return nil, err
+	}
+	return v, nil
+}

@@ -73,6 +73,8 @@ func RunSearch(cmd *cobra.Command, args []string) error {
 			entity, err = entry.GetStatus()
 		case xivapi.IndexTitle:
 			entity, err = entry.GetTitle()
+		case xivapi.IndexWeather:
+			entity, err = entry.GetWeather()
 
 		default:
 			pp.Println(entry)
