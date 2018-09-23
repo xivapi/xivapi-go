@@ -266,3 +266,128 @@ func (e *SearchResultEntry) GetInstanceContent() (*SearchResultInstanceContent, 
 	}
 	return v, nil
 }
+
+// SearchResultItem holds all fields for a Item search result
+type SearchResultItem struct {
+	*SearchResultCommon
+	URL         string `json:"Url"`
+	GamePatchID int    `json:"GamePatch.ID"`
+
+	BaseParam0ID               uint `json:"BaseParam0.ID"`
+	BaseParam1ID               uint `json:"BaseParam1.ID"`
+	BaseParam2ID               uint `json:"BaseParam2.ID"`
+	BaseParam3ID               uint `json:"BaseParam3.ID"`
+	BaseParam4ID               uint `json:"BaseParam4.ID"`
+	BaseParam5ID               uint `json:"BaseParam5.ID"`
+	BaseParamSpecial0ID        uint `json:"BaseParamSpecial0.ID"`
+	BaseParamSpecial1ID        uint `json:"BaseParamSpecial1.ID"`
+	BaseParamSpecial2ID        uint `json:"BaseParamSpecial2.ID"`
+	BaseParamSpecial3ID        uint `json:"BaseParamSpecial3.ID"`
+	BaseParamSpecial4ID        uint `json:"BaseParamSpecial4.ID"`
+	BaseParamSpecial5ID        uint `json:"BaseParamSpecial5.ID"`
+	BaseParamValue0            int
+	BaseParamValue1            int
+	BaseParamValue2            int
+	BaseParamValue3            int
+	BaseParamValue4            int
+	BaseParamValue5            int
+	BaseParamValueSpecial0     int
+	BaseParamValueSpecial1     int
+	BaseParamValueSpecial2     int
+	BaseParamValueSpecial3     int
+	BaseParamValueSpecial4     int
+	BaseParamValueSpecial5     int
+	Block                      int
+	BlockRate                  int
+	CanBeHq                    JSONBoolNumber
+	Description                string
+	IsAdvancedMeldingPermitted JSONBoolNumber
+	IsCollectable              JSONBoolNumber
+	IsCrestWorthy              JSONBoolNumber
+	IsDyeable                  JSONBoolNumber
+	IsIndisposable             JSONBoolNumber
+	IsPvP                      JSONBoolNumber
+	IsUnique                   JSONBoolNumber
+	IsUntradable               JSONBoolNumber
+	LevelEquip                 int
+	LevelItem                  int
+	MateriaSlotCount           int
+	MaterializeType            int
+	ModelMain                  string
+	ModelSub                   string
+	Rarity                     int
+	StackSize                  int
+	ClassJobCategoryACN        JSONBoolNumber `json:"ClassJobCategory.ACN"`
+	ClassJobCategoryADV        JSONBoolNumber `json:"ClassJobCategory.ADV"`
+	ClassJobCategoryALC        JSONBoolNumber `json:"ClassJobCategory.ALC"`
+	ClassJobCategoryARC        JSONBoolNumber `json:"ClassJobCategory.ARC"`
+	ClassJobCategoryARM        JSONBoolNumber `json:"ClassJobCategory.ARM"`
+	ClassJobCategoryAST        JSONBoolNumber `json:"ClassJobCategory.AST"`
+	ClassJobCategoryBLM        JSONBoolNumber `json:"ClassJobCategory.BLM"`
+	ClassJobCategoryBRD        JSONBoolNumber `json:"ClassJobCategory.BRD"`
+	ClassJobCategoryBSM        JSONBoolNumber `json:"ClassJobCategory.BSM"`
+	ClassJobCategoryBTN        JSONBoolNumber `json:"ClassJobCategory.BTN"`
+	ClassJobCategoryCNJ        JSONBoolNumber `json:"ClassJobCategory.CNJ"`
+	ClassJobCategoryCRP        JSONBoolNumber `json:"ClassJobCategory.CRP"`
+	ClassJobCategoryCUL        JSONBoolNumber `json:"ClassJobCategory.CUL"`
+	ClassJobCategoryDRG        JSONBoolNumber `json:"ClassJobCategory.DRG"`
+	ClassJobCategoryDRK        JSONBoolNumber `json:"ClassJobCategory.DRK"`
+	ClassJobCategoryFSH        JSONBoolNumber `json:"ClassJobCategory.FSH"`
+	ClassJobCategoryGLA        JSONBoolNumber `json:"ClassJobCategory.GLA"`
+	ClassJobCategoryGSM        JSONBoolNumber `json:"ClassJobCategory.GSM"`
+	ClassJobCategoryID         uint           `json:"ClassJobCategory.ID"`
+	ClassJobCategoryLNC        JSONBoolNumber `json:"ClassJobCategory.LNC"`
+	ClassJobCategoryLTW        JSONBoolNumber `json:"ClassJobCategory.LTW"`
+	ClassJobCategoryMCH        JSONBoolNumber `json:"ClassJobCategory.MCH"`
+	ClassJobCategoryMIN        JSONBoolNumber `json:"ClassJobCategory.MIN"`
+	ClassJobCategoryMNK        JSONBoolNumber `json:"ClassJobCategory.MNK"`
+	ClassJobCategoryMRD        JSONBoolNumber `json:"ClassJobCategory.MRD"`
+	ClassJobCategoryNIN        JSONBoolNumber `json:"ClassJobCategory.NIN"`
+	ClassJobCategoryName       string         `json:"ClassJobCategory.Name"`
+	ClassJobCategoryPGL        JSONBoolNumber `json:"ClassJobCategory.PGL"`
+	ClassJobCategoryPLD        JSONBoolNumber `json:"ClassJobCategory.PLD"`
+	ClassJobCategoryRDM        JSONBoolNumber `json:"ClassJobCategory.RDM"`
+	ClassJobCategoryROG        JSONBoolNumber `json:"ClassJobCategory.ROG"`
+	ClassJobCategorySAM        JSONBoolNumber `json:"ClassJobCategory.SAM"`
+	ClassJobCategorySCH        JSONBoolNumber `json:"ClassJobCategory.SCH"`
+	ClassJobCategorySMN        JSONBoolNumber `json:"ClassJobCategory.SMN"`
+	ClassJobCategoryTHM        JSONBoolNumber `json:"ClassJobCategory.THM"`
+	ClassJobCategoryWAR        JSONBoolNumber `json:"ClassJobCategory.WAR"`
+	ClassJobCategoryWHM        JSONBoolNumber `json:"ClassJobCategory.WHM"`
+	ClassJobCategoryWVR        JSONBoolNumber `json:"ClassJobCategory.WVR"`
+	ClassJobRepairID           uint           `json:"ClassJobRepair.ID"`
+	ClassJobUseID              uint           `json:"ClassJobUse.ID"`
+	CooldownSeconds            int            `json:"CooldownS"`
+	DamageMagical              int            `json:"DamageMag"`
+	DamagePhysical             int            `json:"DamagePhys"`
+	DefenseMagical             int            `json:"DefenseMag"`
+	DefensePhysical            int            `json:"DefensePhys"`
+	DelayMilliseconds          int            `json:"DelayMs"`
+	EquipSlotCategoryID        uint           `json:"EquipSlotCategory.ID"`
+	ItemActionID               uint           `json:"ItemAction.ID"`
+	ItemGlamourID              uint           `json:"ItemGlamour.ID"`
+	ItemKindID                 uint           `json:"ItemKind.ID"`
+	ItemKindName               string         `json:"ItemKind.Name"`
+	ItemRepairID               uint           `json:"ItemRepair.ID"`
+	ItemSearchCategoryID       uint           `json:"ItemSearchCategory.ID"`
+	ItemSearchCategoryName     string         `json:"ItemSearchCategory.Name"`
+	ItemSeriesID               uint           `json:"ItemSeries.ID"`
+	ItemSpecialBonusID         uint           `json:"ItemSpecialBonus.ID"`
+	ItemSpecialBonusParamID    uint           `json:"ItemSpecialBonusParam.ID"`
+	ItemUICategoryID           uint           `json:"ItemUICategory.ID"`
+	ItemUICategoryName         string         `json:"ItemUICategory.Name"`
+	StainID                    uint           `json:"Stain.ID"`
+}
+
+// GetItem returns the Item details for a result
+func (e *SearchResultEntry) GetItem() (*SearchResultItem, error) {
+	if e.Type != IndexItem {
+		return nil, ErrUnexpectedType
+	}
+
+	v := new(SearchResultItem)
+	if err := json.Unmarshal(e.raw, v); err != nil {
+		return nil, err
+	}
+	return v, nil
+}
