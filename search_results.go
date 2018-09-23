@@ -83,6 +83,30 @@ func (e *SearchResultEntry) GetAction() (*SearchResultAction, error) {
 	return v, nil
 }
 
+// SearchResultBNPCName holds the bnnpcname details
+type SearchResultBNPCName struct {
+	*SearchResultCommon
+	URL string `json:"Url"`
+}
+
+// GetBNPCName returns the BNPCName details for a result
+func (e *SearchResultEntry) GetBNPCName() (*SearchResultBNPCName, error) {
+	if e.Type != IndexBNPCName {
+		return nil, ErrUnexpectedType
+	}
+
+	v := new(SearchResultBNPCName)
+	if err := json.Unmarshal(e.raw, v); err != nil {
+		return nil, err
+	}
+	return v, nil
+}
+
+// GetEnemy is an alias for GetBNPCName
+func (e *SearchResultEntry) GetEnemy() (*SearchResultBNPCName, error) {
+	return e.GetBNPCName()
+}
+
 // SearchResultCompanion holds all fields for a companion search result
 // type SearchResultCompanion struct {
 // 	SearchResultCommon      `mapstructure:",squash"`

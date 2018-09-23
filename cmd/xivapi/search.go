@@ -38,23 +38,24 @@ func RunSearch(cmd *cobra.Command, args []string) error {
 		}
 
 		entry := res.Results[searchDetails-1]
+		var entity interface{}
+		var err error
 		switch entry.Type {
 		case xivapi.IndexAchievement:
-			entity, err := entry.GetAchievement()
-			if err != nil {
-				return err
-			}
-			pp.Println(entity)
+			entity, err = entry.GetAchievement()
 		case xivapi.IndexAction:
-			entity, err := entry.GetAction()
-			if err != nil {
-				return err
-			}
-			pp.Println(entity)
+			entity, err = entry.GetAction()
+		case xivapi.IndexBNPCName:
+			entity, err = entry.GetBNPCName()
 
 		default:
 			pp.Println(entry)
+			return nil
 		}
+		if err != nil {
+			return err
+		}
+		pp.Println(entity)
 	} else {
 		pp.Println(res)
 	}
