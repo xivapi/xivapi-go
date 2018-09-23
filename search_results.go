@@ -544,3 +544,36 @@ func (e *SearchResultEntry) GetRecipe() (*SearchResultRecipe, error) {
 	}
 	return v, nil
 }
+
+// SearchResultStatus holds all fields for a Status search result
+type SearchResultStatus struct {
+	*SearchResultCommon
+	URL              string         `json:"Url"`
+	GamePatchID      int            `json:"GamePatch.ID"`
+	CanDispel        JSONBoolNumber `json:"CanDispel"`
+	Category         int            `json:"Category"`
+	Description      string         `json:"Description"`
+	InflictedByActor JSONBoolNumber `json:"InflictedByActor"`
+	Invisibility     JSONBoolNumber `json:"Invisibility"`
+	IsFcBuff         JSONBoolNumber `json:"IsFcBuff"`
+	IsPermanent      JSONBoolNumber `json:"IsPermanent"`
+	LockActions      JSONBoolNumber `json:"LockActions"`
+	LockControl      JSONBoolNumber `json:"LockControl"`
+	LockMovement     JSONBoolNumber `json:"LockMovement"`
+	MaxStacks        int            `json:"MaxStacks"`
+	Name             string         `json:"Name"`
+	Transfiguration  int            `json:"Transfiguration"`
+}
+
+// GetStatus returns the Status details for a result
+func (e *SearchResultEntry) GetStatus() (*SearchResultStatus, error) {
+	if e.Type != IndexStatus {
+		return nil, ErrUnexpectedType
+	}
+
+	v := new(SearchResultStatus)
+	if err := json.Unmarshal(e.raw, v); err != nil {
+		return nil, err
+	}
+	return v, nil
+}
