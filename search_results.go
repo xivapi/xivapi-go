@@ -577,3 +577,24 @@ func (e *SearchResultEntry) GetStatus() (*SearchResultStatus, error) {
 	}
 	return v, nil
 }
+
+// SearchResultTitle holds all fields for a Title search result
+type SearchResultTitle struct {
+	*SearchResultCommon
+	URL         string `json:"Url"`
+	GamePatchID int    `json:"GamePatch.ID"`
+	NameFemale  string `json:"NameFemale"`
+}
+
+// GetTitle returns the Title details for a result
+func (e *SearchResultEntry) GetTitle() (*SearchResultTitle, error) {
+	if e.Type != IndexTitle {
+		return nil, ErrUnexpectedType
+	}
+
+	v := new(SearchResultTitle)
+	if err := json.Unmarshal(e.raw, v); err != nil {
+		return nil, err
+	}
+	return v, nil
+}
