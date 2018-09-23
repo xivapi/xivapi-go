@@ -270,21 +270,20 @@ func (e *SearchResultEntry) GetInstanceContent() (*SearchResultInstanceContent, 
 // SearchResultItem holds all fields for a Item search result
 type SearchResultItem struct {
 	*SearchResultCommon
-	URL         string `json:"Url"`
-	GamePatchID int    `json:"GamePatch.ID"`
-
-	BaseParam0ID               uint `json:"BaseParam0.ID"`
-	BaseParam1ID               uint `json:"BaseParam1.ID"`
-	BaseParam2ID               uint `json:"BaseParam2.ID"`
-	BaseParam3ID               uint `json:"BaseParam3.ID"`
-	BaseParam4ID               uint `json:"BaseParam4.ID"`
-	BaseParam5ID               uint `json:"BaseParam5.ID"`
-	BaseParamSpecial0ID        uint `json:"BaseParamSpecial0.ID"`
-	BaseParamSpecial1ID        uint `json:"BaseParamSpecial1.ID"`
-	BaseParamSpecial2ID        uint `json:"BaseParamSpecial2.ID"`
-	BaseParamSpecial3ID        uint `json:"BaseParamSpecial3.ID"`
-	BaseParamSpecial4ID        uint `json:"BaseParamSpecial4.ID"`
-	BaseParamSpecial5ID        uint `json:"BaseParamSpecial5.ID"`
+	URL                        string `json:"Url"`
+	GamePatchID                int    `json:"GamePatch.ID"`
+	BaseParam0ID               uint   `json:"BaseParam0.ID"`
+	BaseParam1ID               uint   `json:"BaseParam1.ID"`
+	BaseParam2ID               uint   `json:"BaseParam2.ID"`
+	BaseParam3ID               uint   `json:"BaseParam3.ID"`
+	BaseParam4ID               uint   `json:"BaseParam4.ID"`
+	BaseParam5ID               uint   `json:"BaseParam5.ID"`
+	BaseParamSpecial0ID        uint   `json:"BaseParamSpecial0.ID"`
+	BaseParamSpecial1ID        uint   `json:"BaseParamSpecial1.ID"`
+	BaseParamSpecial2ID        uint   `json:"BaseParamSpecial2.ID"`
+	BaseParamSpecial3ID        uint   `json:"BaseParamSpecial3.ID"`
+	BaseParamSpecial4ID        uint   `json:"BaseParamSpecial4.ID"`
+	BaseParamSpecial5ID        uint   `json:"BaseParamSpecial5.ID"`
 	BaseParamValue0            int
 	BaseParamValue1            int
 	BaseParamValue2            int
@@ -386,6 +385,41 @@ func (e *SearchResultEntry) GetItem() (*SearchResultItem, error) {
 	}
 
 	v := new(SearchResultItem)
+	if err := json.Unmarshal(e.raw, v); err != nil {
+		return nil, err
+	}
+	return v, nil
+}
+
+// SearchResultLeve holds all fields for a Leve search result
+type SearchResultLeve struct {
+	*SearchResultCommon
+	URL                             string `json:"Url"`
+	GamePatchID                     int    `json:"GamePatch.ID"`
+	AllowanceCost                   int
+	ClassJobLevel                   int
+	Description                     string
+	ExpReward                       int
+	GilReward                       int
+	ClassJobCategoryName            string `json:"ClassJobCategory.Name"`
+	JournalGenreID                  uint   `json:"JournalGenre.ID"`
+	JournalGenreJournalCategoryID   uint   `json:"JournalGenre.JournalCategory.ID"`
+	JournalGenreJournalCategoryName string `json:"JournalGenre.JournalCategory.Name"`
+	JournalGenreName                string `json:"JournalGenre.Name"`
+	LeveAssignmentTypeID            uint   `json:"LeveAssignmentType.ID"`
+	LeveClientID                    uint   `json:"LeveClient.ID"`
+	PlaceNameIssuedID               uint   `json:"PlaceNameIssued.ID"`
+	PlaceNameStartID                uint   `json:"PlaceNameStart.ID"`
+	PlaceNameStartZoneID            uint   `json:"PlaceNameStartZone.ID"`
+}
+
+// GetLeve returns the Leve details for a result
+func (e *SearchResultEntry) GetLeve() (*SearchResultLeve, error) {
+	if e.Type != IndexLeve {
+		return nil, ErrUnexpectedType
+	}
+
+	v := new(SearchResultLeve)
 	if err := json.Unmarshal(e.raw, v); err != nil {
 		return nil, err
 	}
