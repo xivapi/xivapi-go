@@ -467,3 +467,80 @@ func (e *SearchResultEntry) GetPlaceName() (*SearchResultPlaceName, error) {
 	}
 	return v, nil
 }
+
+// SearchResultQuest holds all fields for a Quest search result
+type SearchResultQuest struct {
+	*SearchResultCommon
+	URL                             string `json:"Url"`
+	GamePatchID                     int    `json:"GamePatch.ID"`
+	ClassJobLevel0                  int
+	ClassJobLevel1                  int
+	ExperiencePoints                int
+	GilReward                       int
+	IconSpecial                     string
+	TomestoneCountReward            int
+	ClassJobCategory0Name           string `json:"ClassJobCategory0.Name"`
+	ClassJobCategory1Name           string `json:"ClassJobCategory1.Name"`
+	EmoteRewardID                   uint   `json:"EmoteReward.ID"`
+	JournalGenreJournalCategoryName string `json:"JournalGenre.JournalCategory.Name"`
+	JournalGenreName                string `json:"JournalGenre.Name"`
+	QuestID                         uint   `json:"Quest.ID"`
+	TomestoneRewardID               uint   `json:"TomestoneReward.ID"`
+}
+
+// GetQuest returns the Quest details for a result
+func (e *SearchResultEntry) GetQuest() (*SearchResultQuest, error) {
+	if e.Type != IndexQuest {
+		return nil, ErrUnexpectedType
+	}
+
+	v := new(SearchResultQuest)
+	if err := json.Unmarshal(e.raw, v); err != nil {
+		return nil, err
+	}
+	return v, nil
+}
+
+// SearchResultRecipe holds all fields for a Recipe search result
+type SearchResultRecipe struct {
+	*SearchResultCommon
+	URL                           string         `json:"Url"`
+	GamePatchID                   int            `json:"GamePatch.ID"`
+	AmountResult                  int            `json:"AmountResult"`
+	CanHq                         JSONBoolNumber `json:"CanHq"`
+	CanQuickSynth                 JSONBoolNumber `json:"CanQuickSynth"`
+	ClassJobID                    uint           `json:"ClassJob.ID"`
+	ClassJobName                  string         `json:"ClassJob.Name"`
+	DifficultyFactor              int            `json:"DifficultyFactor"`
+	DurabilityFactor              int            `json:"DurabilityFactor"`
+	ExpRewarded                   int            `json:"ExpRewarded"`
+	IsSecondary                   JSONBoolNumber `json:"IsSecondary"`
+	IsSpecializationRequired      JSONBoolNumber `json:"IsSpecializationRequired"`
+	ItemResultID                  uint           `json:"ItemResult.ID"`
+	QualityFactor                 int            `json:"QualityFactor"`
+	QuickSynthControl             int            `json:"QuickSynthControl"`
+	QuickSynthCraftsmanship       int            `json:"QuickSynthCraftsmanship"`
+	RecipeLevelTableClassJobLevel int            `json:"RecipeLevelTable.ClassJobLevel"`
+	RecipeLevelTableDifficulty    int            `json:"RecipeLevelTable.Difficulty"`
+	RecipeLevelTableDurability    int            `json:"RecipeLevelTable.Durability"`
+	RecipeLevelTableQuality       int            `json:"RecipeLevelTable.Quality"`
+	RecipeLevelTableStars         int            `json:"RecipeLevelTable.Stars"`
+	RequiredControl               int            `json:"RequiredControl"`
+	RequiredCraftsmanship         int            `json:"RequiredCraftsmanship"`
+	SecretRecipeBookID            uint           `json:"SecretRecipeBook.ID"`
+	SecretRecipeBookName          string         `json:"SecretRecipeBook.Name"`
+	StatusRequiredID              uint           `json:"StatusRequired.ID"`
+}
+
+// GetRecipe returns the Recipe details for a result
+func (e *SearchResultEntry) GetRecipe() (*SearchResultRecipe, error) {
+	if e.Type != IndexRecipe {
+		return nil, ErrUnexpectedType
+	}
+
+	v := new(SearchResultRecipe)
+	if err := json.Unmarshal(e.raw, v); err != nil {
+		return nil, err
+	}
+	return v, nil
+}
