@@ -619,3 +619,37 @@ func (e *SearchResultEntry) GetWeather() (*SearchResultWeather, error) {
 	}
 	return v, nil
 }
+
+// SearchResultBuddyEquip holds all fields for a BuddyEquip search result
+type SearchResultBuddyEquip struct {
+	*SearchResultCommon
+	URL             string         `json:"Url"`
+	GamePatchID     int            `json:"GamePatch.ID"`
+	GrandCompanyID  uint           `json:"GrandCompany.ID"`
+	IconBody        string         `json:"IconBody"`
+	IconHead        string         `json:"IconHead"`
+	IconLegs        string         `json:"IconLegs"`
+	ModelBody       int            `json:"ModelBody"`
+	ModelLegs       int            `json:"ModelLegs"`
+	ModelTop        int            `json:"ModelTop"`
+	Rarity          int            `json:"Rarity"`
+	StartsWithVowel JSONBoolNumber `json:"StartsWithVowel"`
+}
+
+// GetBuddyEquip returns the BuddyEquip details for a result
+func (e *SearchResultEntry) GetBuddyEquip() (*SearchResultBuddyEquip, error) {
+	if e.Type != IndexBuddyEquip {
+		return nil, ErrUnexpectedType
+	}
+
+	v := new(SearchResultBuddyEquip)
+	if err := json.Unmarshal(e.raw, v); err != nil {
+		return nil, err
+	}
+	return v, nil
+}
+
+// GetChocoboGear is an alias for GetBuddyEquip
+func (e *SearchResultEntry) GetChocoboGear() (*SearchResultBuddyEquip, error) {
+	return e.GetBuddyEquip()
+}
