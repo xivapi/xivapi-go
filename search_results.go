@@ -447,3 +447,23 @@ func (e *SearchResultEntry) GetMount() (*SearchResultMount, error) {
 	}
 	return v, nil
 }
+
+// SearchResultPlaceName holds all fields for a PlaceName search result
+type SearchResultPlaceName struct {
+	*SearchResultCommon
+	URL         string `json:"Url"`
+	GamePatchID int    `json:"GamePatch.ID"`
+}
+
+// GetPlaceName returns the PlaceName details for a result
+func (e *SearchResultEntry) GetPlaceName() (*SearchResultPlaceName, error) {
+	if e.Type != IndexPlaceName {
+		return nil, ErrUnexpectedType
+	}
+
+	v := new(SearchResultPlaceName)
+	if err := json.Unmarshal(e.raw, v); err != nil {
+		return nil, err
+	}
+	return v, nil
+}
