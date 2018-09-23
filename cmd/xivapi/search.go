@@ -38,7 +38,6 @@ func RunSearch(cmd *cobra.Command, args []string) error {
 		}
 
 		entry := res.Results[searchDetails-1]
-
 		switch entry.Type {
 		case xivapi.IndexAchievement:
 			entity, err := entry.GetAchievement()
@@ -52,6 +51,9 @@ func RunSearch(cmd *cobra.Command, args []string) error {
 				return err
 			}
 			pp.Println(entity)
+
+		default:
+			pp.Println(entry)
 		}
 	} else {
 		pp.Println(res)
