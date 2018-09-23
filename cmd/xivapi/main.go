@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/k0kubun/pp"
+
 	"github.com/spf13/cobra"
 	"gitlab.com/paars/xiv/xivapi"
 )
@@ -12,6 +14,7 @@ var rootCmd = &cobra.Command{
 	Use:              "xivapi",
 	Short:            "xivapi queries xivapi",
 	Long:             `Query xivapi for different data from Final Fantasy 14 and Lodestone`,
+	PersistentPreRun: preRun,
 	TraverseChildren: true,
 }
 
@@ -27,11 +30,17 @@ var fcCmd = &cobra.Command{
 	Run:   RunFreeCompanySearch,
 }
 
-func main() {
+func preRun(*cobra.Command, []string) {
 	cobra.OnInitialize(initConfig)
+}
+
+func init() {
+	pp.BufferFoldThreshold = 4
 	rootCmd.PersistentFlags().StringP("key", "k", "", "The XIVAPI key")
 	rootCmd.AddCommand(patchCmd, fcCmd)
+}
 
+func main() {
 	if err := rootCmd.Execute(); err != nil {
 		log.Fatalf("Failed to run xivapi, error was %v", err)
 	}
@@ -48,13 +57,7 @@ func RunFreeCompanySearch(cmd *cobra.Command, args []string) {
 		log.Fatal(err)
 	}
 
-	if searchDetails > 0 {
-		if searchDetails > res.Pagination.Results {
-			log.Fatal("Failed to fetch details for requested index")
-		}
-	} else {
-		fmt.Println(res)
-	}
+	fmt.Println(res)
 }
 
 func RunPatch(cmd *cobra.Command, args []string) {
