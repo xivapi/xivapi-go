@@ -108,16 +108,34 @@ func (e *SearchResultEntry) GetEnemy() (*SearchResultBNPCName, error) {
 }
 
 // SearchResultCompanion holds all fields for a companion search result
-// type SearchResultCompanion struct {
-// 	SearchResultCommon      `mapstructure:",squash"`
-// 	SearchResultURLSubtype  `mapstructure:",squash"`
-// 	SearchResultIconSubtype `mapstructure:",squash"`
-// 	MinionRaceName          string `mapstructure:"MinionRace.Name"`
-// 	BehaviorName            string `mapstructure:"Behavior.Name"`
-// 	ID                      int
-// 	GameType                string
-// }
+type SearchResultCompanion struct {
+	*SearchResultCommon
+	URL            string `json:"Url"`
+	BehaviorID     uint   `json:"Behaviour.ID"`
+	BehaviorName   string `json:"Behaviour.Name"`
+	GamePatchID    int    `json:"GamePatch.ID"`
+	MinionRaceID   uint   `json:"MinionRace.ID"`
+	MinionRaceName string `json:"MinionRace.Name"`
+	Cost           int
+	HP             int
+	SkillAngle     uint
+	SkillCost      uint
+}
 
-// func (c SearchResultCompanion) String() string {
-// 	return fmt.Sprintf("%v { [%v] %v (%v) <%v> <%v> }", c.Type, c.ID, c.Name, c.BehaviorName, c.SiteURL, c.FullIcon())
-// }
+// GetCompanion returns the Companion details for a result
+func (e *SearchResultEntry) GetCompanion() (*SearchResultCompanion, error) {
+	if e.Type != IndexCompanion {
+		return nil, ErrUnexpectedType
+	}
+
+	v := new(SearchResultCompanion)
+	if err := json.Unmarshal(e.raw, v); err != nil {
+		return nil, err
+	}
+	return v, nil
+}
+
+// GetMinion is an alias for GetCompanion
+func (e *SearchResultEntry) GetMinion() (*SearchResultCompanion, error) {
+	return e.GetCompanion()
+}
