@@ -211,3 +211,58 @@ func (e *SearchResultEntry) GetFate() (*SearchResultFate, error) {
 	}
 	return v, nil
 }
+
+// SearchResultInstanceContent holds all fields for a InstanceContent search result
+type SearchResultInstanceContent struct {
+	*SearchResultCommon
+	URL                                         string `json:"Url"`
+	GamePatchID                                 int    `json:"GamePatch.ID"`
+	BossCurrencyA0                              int
+	BossCurrencyA1                              int
+	BossCurrencyA2                              int
+	BossCurrencyA3                              int
+	BossCurrencyA4                              int
+	BossCurrencyB0                              int
+	BossCurrencyB1                              int
+	BossCurrencyB2                              int
+	BossCurrencyB3                              int
+	BossCurrencyB4                              int
+	BossCurrencyC0                              int
+	BossCurrencyC1                              int
+	BossCurrencyC2                              int
+	BossCurrencyC3                              int
+	BossCurrencyC4                              int
+	FinalBossCurrencyA                          int
+	FinalBossCurrencyB                          int
+	FinalBossCurrencyC                          int
+	NewPlayerBonusA                             int
+	NewPlayerBonusB                             int
+	PartyCondition                              int // TODO: correct type?
+	SortKey                                     int // TODO: correct type?
+	TimeLimitMin                                int
+	WeekRestriction                             JSONBoolNumber
+	InstanceContentTypeID                       uint   `json:"InstanceContentType.ID"`
+	ContentTypeID                               uint   `json:"ContentType.ID"`
+	ContentTypeName                             string `json:"ContentType.Name"`
+	ContentMemberTypeHealersPerParty            int    `json:"ContentMemberType.HealersPerParty"`
+	ContentMemberTypeMeleesPerParty             int    `json:"ContentMemberType.MeleesPerParty"`
+	ContentMemberTypeRangedPerParty             int    `json:"ContentMemberType.RangedPerParty"`
+	ContentMemberTypeTanksPerParty              int    `json:"ContentMemberType.TanksPerParty"`
+	ContentFinderConditionClassJobLevelRequired int    `json:"ContentFinderCondition.ClassJobLevelRequired"`
+	ContentFinderConditionClassJobLevelSync     int    `json:"ContentFinderCondition.ClassJobLevelSync"`
+	ContentFinderConditionItemLevelRequired     int    `json:"ContentFinderCondition.ItemLevelRequired"`
+	ContentFinderConditionItemLevelSync         int    `json:"ContentFinderCondition.ItemLevelSync"`
+}
+
+// GetInstanceContent returns the InstanceContent details for a result
+func (e *SearchResultEntry) GetInstanceContent() (*SearchResultInstanceContent, error) {
+	if e.Type != IndexInstanceContent {
+		return nil, ErrUnexpectedType
+	}
+
+	v := new(SearchResultInstanceContent)
+	if err := json.Unmarshal(e.raw, v); err != nil {
+		return nil, err
+	}
+	return v, nil
+}
