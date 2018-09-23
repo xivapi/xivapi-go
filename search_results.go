@@ -140,20 +140,20 @@ func (e *SearchResultEntry) GetMinion() (*SearchResultCompanion, error) {
 	return e.GetCompanion()
 }
 
-// SearchENPCResident holds all fields for a enpcresident search result
-type SearchENPCResident struct {
+// SearchResultENPCResident holds all fields for a enpcresident search result
+type SearchResultENPCResident struct {
 	*SearchResultCommon
 	URL   string `json:"Url"`
 	Title string
 }
 
 // GetENPCResident returns the enpcresident details for a result
-func (e *SearchResultEntry) GetENPCResident() (*SearchENPCResident, error) {
+func (e *SearchResultEntry) GetENPCResident() (*SearchResultENPCResident, error) {
 	if e.Type != IndexENPCResident {
 		return nil, ErrUnexpectedType
 	}
 
-	v := new(SearchENPCResident)
+	v := new(SearchResultENPCResident)
 	if err := json.Unmarshal(e.raw, v); err != nil {
 		return nil, err
 	}
@@ -161,6 +161,30 @@ func (e *SearchResultEntry) GetENPCResident() (*SearchENPCResident, error) {
 }
 
 // GetNPC is an alias for GetENPCResident
-func (e *SearchResultEntry) GetNPC() (*SearchENPCResident, error) {
+func (e *SearchResultEntry) GetNPC() (*SearchResultENPCResident, error) {
 	return e.GetENPCResident()
+}
+
+// SearchResultEmote holds all fields for a emote search result
+type SearchResultEmote struct {
+	*SearchResultCommon
+	URL                string `json:"Url"`
+	GamePatchID        int    `json:"GamePatch.ID"`
+	EmoteCategoryID    uint   `json:"EmoteCategory.ID"`
+	EmoteCategoryName  string `json:"EmoteCategory.Name"`
+	TextCommandID      uint   `json:"TextCommand.ID"`
+	TextCommandCommand string `json:"TextCommand.Command"`
+}
+
+// GetEmote returns the emote details for a result
+func (e *SearchResultEntry) GetEmote() (*SearchResultEmote, error) {
+	if e.Type != IndexEmote {
+		return nil, ErrUnexpectedType
+	}
+
+	v := new(SearchResultEmote)
+	if err := json.Unmarshal(e.raw, v); err != nil {
+		return nil, err
+	}
+	return v, nil
 }
