@@ -37,15 +37,22 @@ func RunSearch(cmd *cobra.Command, args []string) error {
 			return errors.New("failed to fetch details for requested index")
 		}
 
-		// entry := res.Results[searchDetails-1]
-		// switch entry.Type {
-		// case xivapi.IndexCompanion:
-		// 	entity, err := entry.GetCompanion()
-		// 	if err != nil {
-		// 		return err
-		// 	}
-		// 	pp.Println(entity)
-		// }
+		entry := res.Results[searchDetails-1]
+
+		switch entry.Type {
+		case xivapi.IndexAchievement:
+			entity, err := entry.GetAchievement()
+			if err != nil {
+				return err
+			}
+			pp.Println(entity)
+		case xivapi.IndexAction:
+			entity, err := entry.GetAction()
+			if err != nil {
+				return err
+			}
+			pp.Println(entity)
+		}
 	} else {
 		pp.Println(res)
 	}

@@ -46,25 +46,18 @@ func (sr *SearchResult) Duration() time.Duration {
 // SearchResultEntry is the result of a search result.
 // It holds the 2 common fields to all results and allows converting into the correct type
 type SearchResultEntry struct {
-	Type SearchIndex `json:"_"`
-	ID   uint
-	Name string
-	Icon string
-
+	*SearchResultCommon
 	raw json.RawMessage
 }
 
-// special type needed for the unmarshaling, to prevent stackoverflow
-type _sre SearchResultEntry
-
 // UnmarshalJSON is called by encoding/json for a custom way to unmarshal the json object
 func (e *SearchResultEntry) UnmarshalJSON(bs []byte) error {
-	var decoded _sre
+	var decoded SearchResultCommon
 	if err := json.Unmarshal(bs, &decoded); err != nil {
 		return err
 	}
 
-	*e = SearchResultEntry(decoded)
+	e.SearchResultCommon = &decoded
 	e.raw = bs
 
 	return nil
