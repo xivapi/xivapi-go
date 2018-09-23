@@ -425,3 +425,25 @@ func (e *SearchResultEntry) GetLeve() (*SearchResultLeve, error) {
 	}
 	return v, nil
 }
+
+// SearchResultMount holds all fields for a Mount search result
+type SearchResultMount struct {
+	*SearchResultCommon
+	URL             string `json:"Url"`
+	GamePatchID     int    `json:"GamePatch.ID"`
+	FlyingCondition JSONBoolNumber
+	IsFlying        JSONBoolNumber
+}
+
+// GetMount returns the Mount details for a result
+func (e *SearchResultEntry) GetMount() (*SearchResultMount, error) {
+	if e.Type != IndexMount {
+		return nil, ErrUnexpectedType
+	}
+
+	v := new(SearchResultMount)
+	if err := json.Unmarshal(e.raw, v); err != nil {
+		return nil, err
+	}
+	return v, nil
+}

@@ -61,6 +61,8 @@ func RunSearch(cmd *cobra.Command, args []string) error {
 			entity, err = entry.GetItem()
 		case xivapi.IndexLeve:
 			entity, err = entry.GetLeve()
+		case xivapi.IndexMount:
+			entity, err = entry.GetMount()
 		default:
 			pp.Println(entry)
 			return nil
