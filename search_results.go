@@ -139,3 +139,28 @@ func (e *SearchResultEntry) GetCompanion() (*SearchResultCompanion, error) {
 func (e *SearchResultEntry) GetMinion() (*SearchResultCompanion, error) {
 	return e.GetCompanion()
 }
+
+// SearchENPCResident holds all fields for a enpcresident search result
+type SearchENPCResident struct {
+	*SearchResultCommon
+	URL   string `json:"Url"`
+	Title string
+}
+
+// GetENPCResident returns the enpcresident details for a result
+func (e *SearchResultEntry) GetENPCResident() (*SearchENPCResident, error) {
+	if e.Type != IndexENPCResident {
+		return nil, ErrUnexpectedType
+	}
+
+	v := new(SearchENPCResident)
+	if err := json.Unmarshal(e.raw, v); err != nil {
+		return nil, err
+	}
+	return v, nil
+}
+
+// GetNPC is an alias for GetENPCResident
+func (e *SearchResultEntry) GetNPC() (*SearchENPCResident, error) {
+	return e.GetENPCResident()
+}

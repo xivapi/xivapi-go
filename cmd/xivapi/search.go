@@ -49,6 +49,8 @@ func RunSearch(cmd *cobra.Command, args []string) error {
 			entity, err = entry.GetBNPCName()
 		case xivapi.IndexCompanion:
 			entity, err = entry.GetCompanion()
+		case xivapi.IndexENPCResident:
+			entity, err = entry.GetENPCResident()
 
 		default:
 			pp.Println(entry)
