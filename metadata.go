@@ -7,13 +7,13 @@ import (
 // Pagination holds the generic pagination info
 // Only used on search
 type Pagination struct {
-	Page           int `json:"page"`
-	PageNext       int `json:"page_next"`
-	PagePrev       int `json:"page_prev"`
-	PageTotal      int `json:"page_total"`
-	Results        int `json:"results"`
-	ResultsPerPage int `json:"results_per_page"`
-	ResultsTotal   int `json:"results_total"`
+	Page           int
+	PageNext       int
+	PagePrev       int
+	PageTotal      int
+	Results        int
+	ResultsPerPage int
+	ResultsTotal   int
 }
 
 func (p Pagination) String() string {

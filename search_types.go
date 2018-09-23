@@ -3,16 +3,16 @@ package xivapi
 // SearchAlgo specifies the available algorithms for searching
 type SearchAlgo string
 
+// The different search algorithm.
+// See https://xivapi.com/docs/Search#string_algo for details
 const (
-	// AlgoWildcard is a very basic wild card, for example: ard would match: b-ard-ing or h-ard etc.
-	AlgoWildcard SearchAlgo = "wildcard"
-
-	// undocumented, thus private
-	algoMultiMatch        = "multi_match"
-	algoQueryString       = "query_string"
-	algoTerm              = "term"
-	algoMatchPhrasePrefix = "match_phrase_prefix"
-	algoFuzzy             = "fuzzy"
+	AlgoWildcard          SearchAlgo = "wildcard"
+	AlgoWildcardPlus                 = "wildcard_plus"
+	AlgoMatchPhrasePrefix            = "match_phrase_prefix"
+	AlgoMultiMatch                   = "multi_match"
+	QueryString                      = "query_string"
+	Term                             = "term"
+	Fuzzy                            = "fuzzy"
 )
 
 // SortOrder defines the sort order for the result list

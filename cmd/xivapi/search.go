@@ -2,8 +2,8 @@ package main
 
 import (
 	"errors"
-	"fmt"
 
+	"github.com/k0kubun/pp"
 	"github.com/spf13/cobra"
 	"gitlab.com/paars/xiv/xivapi"
 )
@@ -37,17 +37,17 @@ func RunSearch(cmd *cobra.Command, args []string) error {
 			return errors.New("failed to fetch details for requested index")
 		}
 
-		entry := res.Results[searchDetails-1]
-		switch entry.Type {
-		case xivapi.IndexCompanion:
-			entity, err := entry.GetCompanion()
-			if err != nil {
-				return err
-			}
-			fmt.Println(entity)
-		}
+		// entry := res.Results[searchDetails-1]
+		// switch entry.Type {
+		// case xivapi.IndexCompanion:
+		// 	entity, err := entry.GetCompanion()
+		// 	if err != nil {
+		// 		return err
+		// 	}
+		// 	pp.Println(entity)
+		// }
 	} else {
-		fmt.Println(res)
+		pp.Println(res)
 	}
 
 	return nil

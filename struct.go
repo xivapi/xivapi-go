@@ -15,9 +15,9 @@ const (
 
 // GlobalQueryParameters define the query parameters valid for all queries
 type GlobalQueryParameters struct {
-	Language TranslationLanguage `query:"language,omitempty"`
-	// Pretty bool `query:"pretty"` // Pretty is used to prettify the json output
+	Language TranslationLanguage `url:"language,omitempty"`
+	// Pretty bool `url:"pretty"` // Pretty is used to prettify the json output
 	// TODO: columns
 
-	Tags string `query:"tags,omitempty"`
+	Tags string `url:"tags,omitempty"`
 }

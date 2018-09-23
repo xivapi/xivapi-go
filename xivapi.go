@@ -45,8 +45,6 @@ func (c *XIVAPI) Request(method Methods, uri *url.URL, body io.ReadCloser) (io.R
 	query.Set("key", c.key)
 	uri.RawQuery = query.Encode()
 
-	fmt.Println(uri.String())
-
 	req, err := http.NewRequest(string(method), uri.String(), body)
 	if err != nil {
 		return nil, err

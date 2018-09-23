@@ -6,8 +6,6 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/mitchellh/mapstructure"
-
 	"github.com/google/go-querystring/query"
 )
 
@@ -16,6 +14,8 @@ const DefaultResultsPerPage int = 100
 
 // SearchParams is the struct that gets encoded to the list of uri params
 type SearchParams struct {
+	GlobalQueryParameters
+
 	Indexes      SearchIndexes `url:"indexes"`
 	Query        string        `url:"string"`
 	Algorithm    SearchAlgo    `url:"string_algo,omitempty"`
@@ -29,9 +29,9 @@ type SearchParams struct {
 
 // SearchResult is the result returned from XIVAPI
 type SearchResult struct {
-	Milliseconds int64               `json:"ms"`
-	Pagination   Pagination          `json:"pagination"`
+	Pagination   Pagination
 	Results      []SearchResultEntry `json:"results"`
+	Milliseconds int64               `json:"SpeedMs"`
 }
 
 func (sr SearchResult) String() string {
@@ -47,48 +47,27 @@ func (sr *SearchResult) Duration() time.Duration {
 // It holds the 2 common fields to all results and allows converting into the correct type
 type SearchResultEntry struct {
 	Type SearchIndex `json:"_"`
-	Name string      `json:"name"`
+	ID   uint
+	Name string
+	Icon string
 
-	rawMap map[string]interface{}
+	raw json.RawMessage
 }
+
+// special type needed for the unmarshaling, to prevent stackoverflow
+type _sre SearchResultEntry
 
 // UnmarshalJSON is called by encoding/json for a custom way to unmarshal the json object
 func (e *SearchResultEntry) UnmarshalJSON(bs []byte) error {
-	// encoding/json converts snake_case to PascalCase
-	if err := json.Unmarshal(bs, &e.rawMap); err != nil {
+	var decoded _sre
+	if err := json.Unmarshal(bs, &decoded); err != nil {
 		return err
 	}
 
-	if _, ok := e.rawMap["_"]; !ok {
-		return ErrMissingKey
-	}
-
-	if _, ok := e.rawMap["Name"]; !ok {
-		return ErrMissingKey
-	}
-
-	if v, ok := e.rawMap["_"].(string); ok {
-		e.Type = SearchIndex(v)
-	} else {
-		return ErrUnexpectedType
-	}
-
-	if v, ok := e.rawMap["Name"].(string); ok {
-		e.Name = v
-	} else {
-		return ErrUnexpectedType
-	}
+	*e = SearchResultEntry(decoded)
+	e.raw = bs
 
 	return nil
-}
-
-// GetCompanion returns the SearchResultCompanion from this entry object
-func (e *SearchResultEntry) GetCompanion() (*SearchResultCompanion, error) {
-	entity := new(SearchResultCompanion)
-	if err := mapstructure.Decode(e.rawMap, entity); err != nil {
-		return nil, err
-	}
-	return entity, nil
 }
 
 func (e SearchResultEntry) String() string {
@@ -98,10 +77,6 @@ func (e SearchResultEntry) String() string {
 // Search prepares a simple search request
 // This uses SearchRaw under the hood
 func (c *XIVAPI) Search(query, searchColumn, sortColumn string, sortOrder SortOrder, page int, limit int, filters SearchFilters, indexes ...SearchIndex) (*SearchResult, error) {
-	if limit <= 0 {
-		limit = DefaultResultsPerPage
-	}
-
 	params := SearchParams{
 		Query:        query,
 		SearchColumn: searchColumn,
@@ -113,11 +88,17 @@ func (c *XIVAPI) Search(query, searchColumn, sortColumn string, sortOrder SortOr
 		Indexes:      SearchIndexes(indexes),
 	}
 
+	if limit <= 0 {
+		params.Limit = DefaultResultsPerPage
+	}
+
 	return c.SearchRaw(params)
 }
 
 // SearchRaw accepts a raw SearchParams argument and executes the search
 func (c *XIVAPI) SearchRaw(params SearchParams) (*SearchResult, error) {
+	// xivapi uses 1-based pagination
+	// lib uses 0-based indexing
 	params.Page++
 
 	qs, err := query.Values(params)
