@@ -34,7 +34,5 @@ func IsStatusCodeError(err error) bool {
 // The different error types of xivapi
 var (
 	ErrUnexpectedType = errors.New("unexpected type")
-	ErrMissingKey     = errors.New("missing key")
-
 	ErrNotImplemented = errors.New("call not implemented on the server")
 )
