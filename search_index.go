@@ -27,6 +27,8 @@ const (
 	IndexStatus                      = "status"
 	IndexTitle                       = "title"
 	IndexWeather                     = "weather"
+	IndexBuddyEquip                  = "buddyequip"
+	IndexOrchestrion                 = "orchestrion"
 
 	// IndexEnemy is an alias for IndexBNPCName
 	IndexEnemy = "bnpcname"
@@ -34,6 +36,8 @@ const (
 	IndexMinion = "companion"
 	// IndexNPC is an alias for IndexENPCResident
 	IndexNPC = "enpcresident"
+	// IndexChocoboGear is an alias for IndexBuddyEquip
+	IndexChocoboGear = "buddyequip"
 )
 
 // SearchIndexes is the list of indexes to search in
