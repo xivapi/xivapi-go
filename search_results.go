@@ -653,3 +653,28 @@ func (e *SearchResultEntry) GetBuddyEquip() (*SearchResultBuddyEquip, error) {
 func (e *SearchResultEntry) GetChocoboGear() (*SearchResultBuddyEquip, error) {
 	return e.GetBuddyEquip()
 }
+
+// SearchResultOrchestrion holds all fields for a Orchestrion search result
+type SearchResultOrchestrion struct {
+	*SearchResultCommon
+	URL                                       string `json:"Url"`
+	GamePatchID                               int    `json:"GamePatch.ID"`
+	Description                               string `json:"Description"`
+	OrchestrionUiparamID                      uint   `json:"OrchestrionUiparam.ID"`
+	OrchestrionUiparamOrchestrionCategoryID   uint   `json:"OrchestrionUiparam.OrchestrionCategory.ID"`
+	OrchestrionUiparamOrchestrionCategoryName string `json:"OrchestrionUiparam.OrchestrionCategory.Name"`
+	OrchestrionUiparamOrder                   int    `json:"OrchestrionUiparam.Order"`
+}
+
+// GetOrchestrion returns the Orchestrion details for a result
+func (e *SearchResultEntry) GetOrchestrion() (*SearchResultOrchestrion, error) {
+	if e.Type != IndexOrchestrion {
+		return nil, ErrUnexpectedType
+	}
+
+	v := new(SearchResultOrchestrion)
+	if err := json.Unmarshal(e.raw, v); err != nil {
+		return nil, err
+	}
+	return v, nil
+}

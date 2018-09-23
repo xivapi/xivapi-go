@@ -77,6 +77,8 @@ func RunSearch(cmd *cobra.Command, args []string) error {
 			entity, err = entry.GetWeather()
 		case xivapi.IndexBuddyEquip:
 			entity, err = entry.GetBuddyEquip()
+		case xivapi.IndexOrchestrion:
+			entity, err = entry.GetOrchestrion()
 
 		default:
 			pp.Println(entry)
